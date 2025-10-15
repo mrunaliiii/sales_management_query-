@@ -1,0 +1,213 @@
+use sales_management
+switched to db sales_management
+db.sales.aggregate([
+  {
+    $group: {
+      _id: "$category",
+      totalSales: { $sum: "$amount" }
+    }
+  }
+]);
+{
+  _id: 'Electronics',
+  totalSales: 3300
+}
+{
+  _id: 'Fashion',
+  totalSales: 800
+}
+db.sales.aggregate([
+  {
+    $addFields: {
+      month: { $month: { $dateFromString: { dateString: "$date" } } }
+    }
+  },
+  {
+    $group: {
+      _id: "$month",
+      totalSales: { $sum: "$amount" }
+    }
+  },
+  {
+    $sort: { _id: 1 }
+  }
+]);
+{
+  _id: 1,
+  totalSales: 1000
+}
+{
+  _id: 2,
+  totalSales: 1400
+}
+{
+  _id: 3,
+  totalSales: 1300
+}
+{
+  _id: 4,
+  totalSales: 400
+}
+db.sales.aggregate([
+  {
+    $group: {
+      _id: "$product",
+      totalRevenue: { $sum: "$amount" }
+    }
+  },
+  {
+    $sort: { totalRevenue: -1 }
+  },
+  {
+    $limit: 1
+  }
+]);
+{
+  _id: 'Laptop',
+  totalRevenue: 1650
+}
+db.sales.aggregate([
+  {
+    $group: {
+      _id: null,
+      averageSale: { $avg: "$amount" }
+    }
+  }
+]);
+{
+  _id: null,
+  averageSale: 455.55555555555554
+}
+db.sales.aggregate([
+  {
+    $addFields: {
+      month: { $month: { $dateFromString: { dateString: "$date" } } }
+    }
+  },
+  {
+    $group: {
+      _id: "$month",
+      salesCount: { $sum: 1 }
+    }
+  },
+  {
+    $sort: { _id: 1 }
+  }
+]);
+{
+  _id: 1,
+  salesCount: 2
+}
+{
+  _id: 2,
+  salesCount: 3
+}
+{
+  _id: 3,
+  salesCount: 2
+}
+{
+  _id: 4,
+  salesCount: 2
+}
+db.sales.aggregate([
+  {
+    $group: {
+      _id: "$region",
+      totalSales: { $sum: "$amount" }
+    }
+  }
+]);
+{
+  _id: 'South',
+  totalSales: 900
+}
+{
+  _id: 'North',
+  totalSales: 1300
+}
+{
+  _id: 'West',
+  totalSales: 1850
+}
+{
+  _id: 'East',
+  totalSales: 50
+}
+db.sales.aggregate([
+  {
+    $group: {
+      _id: "$product",
+      totalRevenue: { $sum: "$amount" }
+    }
+  },
+  {
+    $sort: { totalRevenue: -1 }
+  },
+  {
+    $limit: 3
+  }
+]);''
+db.sales.aggregate([
+  {
+    $group: {
+      _id: "$category",
+      totalTransactions: { $sum: 1 }
+    }
+  }
+]);
+{
+  _id: 'Electronics',
+  totalTransactions: 5
+}
+{
+  _id: 'Fashion',
+  totalTransactions: 4
+}
+db.sales.aggregate([
+  {
+    $group: {
+      _id: "$region",
+      avgSaleAmount: { $avg: "$amount" }
+    }
+  }
+]);
+{
+  _id: 'East',
+  avgSaleAmount: 50
+}
+{
+  _id: 'South',
+  avgSaleAmount: 300
+}
+{
+  _id: 'North',
+  avgSaleAmount: 433.3333333333333
+}
+{
+  _id: 'West',
+  avgSaleAmount: 925
+}
+db.sales.aggregate([
+  {
+    $match: {
+      category: { $in: ["Electronics", "Fashion"] }
+    }
+  },
+  {
+    $group: {
+      _id: "$category",
+      totalSales: { $sum: "$amount" }
+    }
+  }
+]);
+{
+  _id: 'Fashion',
+  totalSales: 800
+}
+{
+  _id: 'Electronics',
+  totalSales: 3300
+}
+sales_management
+
